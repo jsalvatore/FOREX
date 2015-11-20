@@ -14,7 +14,7 @@ MYcon <- dbConnect(
 for (i in 1:10) {
   Sys.sleep(5)
   fx <- GET(
-  "http://rates.fxcm.com/RatesXML"
+  DataSource$GBPJPY
 )
 fxContent <- content(fx)
 fxDF <- xmlToDataFrame(fxContent)
