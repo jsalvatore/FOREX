@@ -10,7 +10,6 @@ MYcon <- dbConnect(
 )
 
 
-trades <- data.frame()
 for (i in 1:10) {
   Sys.sleep(5)
   fx <- GET(
@@ -26,11 +25,11 @@ time <- as.POSIXct(paste(as.character(Sys.Date()), as.character(GBPJPY$Last)))
 
 trade <- data.frame(bid = bid, ask = ask, time = time)
 
-trades <- rbind(trades, trade)
+dbWriteTable(MYcon, value = trade, name = "GBPJPY", append = TRUE, row.names = FALSE) 
 }
 
 
-dbWriteTable(MYcon, value = trades, name = "GBPJPY", append = TRUE, row.names = FALSE) 
+
 
 
 
