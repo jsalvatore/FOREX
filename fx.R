@@ -2,6 +2,7 @@ library("XML")
 library("httr")
 library("RMySQL")
 
+source("~/Desktop/Creds.R")
 
 MYcon <- dbConnect(
   MySQL(), host = MySQLCreds$dbhostname ,
@@ -10,11 +11,10 @@ MYcon <- dbConnect(
 )
 
 
-trades <- data.frame()
-for (i in 1:10) {
+for (i in 1:20000) {
   Sys.sleep(5)
   fx <- GET(
-  "http://rates.fxcm.com/RatesXML"
+  DataSource$GBPJPY
 )
 fxContent <- content(fx)
 fxDF <- xmlToDataFrame(fxContent)
@@ -26,11 +26,12 @@ time <- as.POSIXct(paste(as.character(Sys.Date()), as.character(GBPJPY$Last)))
 
 trade <- data.frame(bid = bid, ask = ask, time = time)
 
-trades <- rbind(trades, trade)
+dbWriteTable(MYcon, value = trade, name = "GBPJPY", append = TRUE, row.names = FALSE) 
+print(paste("Wrote 1 Record GBP/JPY", as.character(Sys.time())))
 }
 
 
-dbWriteTable(MYcon, value = trades, name = "GBPJPY", append = TRUE, row.names = FALSE) 
+
 
 
 
