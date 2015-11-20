@@ -11,7 +11,7 @@ MYcon <- dbConnect(
 )
 
 
-for (i in 1:10) {
+for (i in 1:20000) {
   Sys.sleep(5)
   fx <- GET(
   DataSource$GBPJPY
