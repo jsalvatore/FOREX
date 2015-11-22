@@ -27,7 +27,7 @@ time <- as.POSIXct(paste(as.character(Sys.Date()), as.character(GBPJPY$Last)))
 trade <- data.frame(bid = bid, ask = ask, time = time)
 
 dbWriteTable(MYcon, value = trade, name = "GBPJPY", append = TRUE, row.names = FALSE) 
-print(paste("Wrote 1 Record GBP/JPY", as.character(Sys.time())))
+print(paste("Wrote 1 Record GBP/JPY", as.character(Sys.time()), "Bid =", as.character(trade$ask)))
 }
 
 
